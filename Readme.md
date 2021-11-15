@@ -1,16 +1,34 @@
 
 The applications test example webpages with Selenium
-* Test of https://seleniumbase.io/demo_page with Selenium
-* Test of https://demoqa with Selenium
 
+Project
+* Test of Github.com
+* Test of SonarCloud.io
+
+***
 PENDING
 
-* Finish main Implementation
-* Add browsers
-  * Opera (All OS)
-  * (Edge,IE,Safari) ?
+* Github.com
 
+  * Finish download implementation
+  * Navigate to file
+  * Add browsers
+    * Firefox
+    * Opera (All OS)
+    * (Edge,IE,Safari) ?
+***
+PENDING
+* Sonacloud.io.com
 
-Guidelines
+  * Check downloading reports
+  * Navigate to bug
+  * Navigate to coverage graph
+  * Filter graph search
+  * Add browsers
+    * Firefox
+    * Opera (All OS)
+    * (Edge,IE,Safari) ?
 
-* Check driver 
+***
+Examples
+* Test of https://demoqa with Selenium
