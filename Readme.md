@@ -6,6 +6,10 @@ Project
 * Test of SonarCloud.io
 
 ***
+
+PENDING 
+* MAVEN pom.xml plugins
+***
 PENDING
 
 * Github.com
