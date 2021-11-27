@@ -12,7 +12,6 @@ PENDING
 
 * Github.com
 
-  * Finish download implementation
   * Navigate to file
   * Add browsers
     * Firefox
@@ -24,7 +23,6 @@ PENDING
 
   * Check downloading reports
   * Navigate to bug
-  * Navigate to coverage graph
   * Filter graph search
   * Add browsers
     * Firefox
