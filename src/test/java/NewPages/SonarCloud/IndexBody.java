@@ -9,7 +9,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -42,7 +41,7 @@ public class IndexBody {
 
         js = (JavascriptExecutor) chromewebDriver;
         chromewebDriver.get("https://sonarcloud.io/project/overview?id=KarimJesusGalvez_spring-patterns");
-        chromewebDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        chromewebDriver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 
     }
 
@@ -105,14 +104,17 @@ public class IndexBody {
             historybtn.click();
             assertTrue(chromewebDriver.findElement(By.className("project-activity-graphs")).isDisplayed());
         }
+
         @Test
-        @DisplayName("Clicks on History btn")
+        @DisplayName("Clicks on Quality Profile Filter")
         void filterHistoryQualityProfile() {
+
            chromewebDriver.get("https://sonarcloud.io/project/activity?custom_metrics=coverage&graph=custom&id=KarimJesusGalvez_spring-patterns");
 
             chromewebDriver.findElement(By.className("Select-placeholder")).click();
 
-            List<WebElement> filters = chromewebDriver.findElements(By.xpath("//div[@class='Select-menu-outer']//a"));
+            // TODO find a way to inspect the drpodown menu
+            List<WebElement> filters = chromewebDriver.findElements(By.xpath("//div[@class='Select-menu-outer']//div"));
             filters.get(2).click();
 
             WebElement selectedfilter = chromewebDriver.findElement(By.className("Select-value-label"));
@@ -122,6 +124,7 @@ public class IndexBody {
         @Test
         @DisplayName("Filters by date")
         void filterHistoryDate() {
+
             chromewebDriver.get("https://sonarcloud.io/project/activity?custom_metrics=coverage&graph=custom&id=KarimJesusGalvez_spring-patterns");
 
             List<WebElement> datepicker = chromewebDriver.findElements(By.className("date-input-control-input"));

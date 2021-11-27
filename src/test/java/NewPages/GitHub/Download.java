@@ -7,10 +7,13 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -35,6 +38,8 @@ public class Download {
         Path path = Paths.get("C:\\data\\chromedriver.exe");
         System.setProperty("webdriver.chrome.driver",path.toString());
         chromewebDriver = new ChromeDriver();
+        chromewebDriver.manage().window().maximize();
+
 //
 //        WebDriverManager.chromedriver().setup();
 //        ChromeOptions options = new ChromeOptions();
@@ -92,6 +97,9 @@ public class Download {
             WebElement userfilter = chromewebDriver.findElement(By.cssSelector(".menu-item:last-child"));
             userfilter.click();
 
+            new WebDriverWait(chromewebDriver, Duration.ofSeconds(5))
+                    .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[contains(@href, '/alansastre')]")));
+
             // select user, 3 returns img,a,a
             try {
                 chromewebDriver.findElements(By.xpath("//a[contains(@href, '/alansastre')]")).get(1).click();
@@ -147,9 +155,21 @@ public class Download {
     @DisplayName("Downloads the project's zip file")
     void downloadMaster() throws InterruptedException {
 
+        WebElement html = chromewebDriver.findElement(By.tagName("html"));
+        Actions action = new Actions(chromewebDriver);
+        action.keyDown(Keys.CONTROL);
+        action.sendKeys(html,Keys.SUBTRACT);
+        action.sendKeys(html,Keys.SUBTRACT);
+        action.perform();
+        action.keyUp(Keys.CONTROL);
+        action.perform();
+
         chromewebDriver.get("https://github.com/alicianunex/proyecto-testing");
         //Select Code button
         chromewebDriver.findElement(By.xpath("//summary[@class='btn-primary btn']")).click();
+
+        new WebDriverWait(chromewebDriver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.elementToBeClickable(By.xpath("//input[contains(@class, 'form-control') and contains(@aria-label,'alicia')]")));
 
         WebElement giturl = chromewebDriver.findElements(By.xpath("//input[contains(@class, 'form-control') and contains(@aria-label,'alicia')]")).get(0);
         assertEquals("https://github.com/alicianunex/proyecto-testing.git",giturl.getAttribute("aria-label"));
@@ -176,11 +196,17 @@ public class Download {
         WebElement branchbtn = chromewebDriver.findElement(By.xpath("//summary[@class='btn css-truncate']"));
         branchbtn.click();
 
+        new WebDriverWait(chromewebDriver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.elementToBeClickable(By.cssSelector("#context-commitish-filter-field")));
+
         WebElement inputbranch = chromewebDriver.findElement(By.cssSelector("#context-commitish-filter-field"));
         inputbranch.sendKeys("karim");
 
-        WebElement brachanchor = chromewebDriver.findElement(By.xpath("//a[@class='SelectMenu-item']"));
-        brachanchor.click();
+        new WebDriverWait(chromewebDriver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[@class='SelectMenu-item']")));
+
+        WebElement branchanchor = chromewebDriver.findElement(By.xpath("//a[@class='SelectMenu-item']"));
+        branchanchor.click();
 
         assertEquals("https://github.com/alicianunex/proyecto-testing/tree/karim_jesus",chromewebDriver.getCurrentUrl());
     }
@@ -190,9 +216,22 @@ public class Download {
     @DisplayName("Downloads the branch's zip file")
     void downloadkarim() throws InterruptedException {
 
+        WebElement html = chromewebDriver.findElement(By.tagName("html"));
+        Actions action = new Actions(chromewebDriver);
+        action.keyDown(Keys.CONTROL);
+        action.sendKeys(html,Keys.SUBTRACT);
+        action.sendKeys(html,Keys.SUBTRACT);
+        action.perform();
+        action.keyUp(Keys.CONTROL);
+        action.perform();
+
+
         chromewebDriver.get("https://github.com/alicianunex/proyecto-testing/tree/karim_jesus");
         //Select Code button
         chromewebDriver.findElement(By.xpath("//summary[@class='btn-primary btn']")).click();
+
+        new WebDriverWait(chromewebDriver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.visibilityOf(chromewebDriver.findElement(By.xpath("//input[contains(@class, 'form-control') and contains(@aria-label,'alicia')]"))));
 
         WebElement giturl = chromewebDriver.findElements(By.xpath("//input[contains(@class, 'form-control') and contains(@aria-label,'alicia')]")).get(0);
         assertEquals("https://github.com/alicianunex/proyecto-testing.git", giturl.getAttribute("aria-label"));
@@ -236,9 +275,21 @@ public class Download {
         @DisplayName("Downloads the branch's zip file")
         void downloadKmaster() throws InterruptedException {
 
+            WebElement html = chromewebDriver.findElement(By.tagName("html"));
+            Actions action = new Actions(chromewebDriver);
+            action.keyDown(Keys.CONTROL);
+            action.sendKeys(html,Keys.SUBTRACT);
+            action.sendKeys(html,Keys.SUBTRACT);
+            action.perform();
+            action.keyUp(Keys.CONTROL);
+            action.perform();
+
             chromewebDriver.get("https://github.com/KarimJesusGalvez/M4_Selenium");
             //Select Code button
             chromewebDriver.findElement(By.xpath("//summary[@class='btn-primary btn']")).click();
+
+            new WebDriverWait(chromewebDriver, Duration.ofSeconds(5))
+                    .until(ExpectedConditions.visibilityOf(chromewebDriver.findElement(By.xpath("//input[contains(@class, 'form-control') and contains(@aria-label,'KarimJesus')]"))));
 
             WebElement giturl = chromewebDriver.findElements(By.xpath("//input[contains(@class, 'form-control') and contains(@aria-label,'KarimJesus')]")).get(0);
             assertEquals("https://github.com/KarimJesusGalvez/M4_Selenium.git", giturl.getAttribute("aria-label"));
