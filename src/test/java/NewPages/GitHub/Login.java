@@ -37,7 +37,7 @@ public class Login {
         Path path = Paths.get("C:\\data\\chromedriver.exe");
         System.setProperty("webdriver.chrome.driver",path.toString());
         chromewebDriver = new ChromeDriver();
-//
+
 
         // TODO phantom breaks tests
 //        WebDriverManager.chromedriver().setup();
@@ -46,9 +46,8 @@ public class Login {
 //        options.addArguments("--disable-dev-shm-usage");
 //        options.addArguments("--headless");
 //        chromewebDriver = new ChromeDriver(options);
-//        chromewebDriver.manage().window().maximize();
 
-
+        chromewebDriver.manage().window().maximize();
         chromewebDriver.get("http://github.com");
 
         WebElement html = chromewebDriver.findElement(By.tagName("html"));

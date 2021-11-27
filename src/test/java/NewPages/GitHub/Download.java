@@ -38,8 +38,8 @@ public class Download {
         Path path = Paths.get("C:\\data\\chromedriver.exe");
         System.setProperty("webdriver.chrome.driver",path.toString());
         chromewebDriver = new ChromeDriver();
-        chromewebDriver.manage().window().maximize();
 
+        // TODO search() fails in phantom mode
 //
 //        WebDriverManager.chromedriver().setup();
 //        ChromeOptions options = new ChromeOptions();
@@ -47,9 +47,9 @@ public class Download {
 //        options.addArguments("--disable-dev-shm-usage");
 //        options.addArguments("--headless");
 //        chromewebDriver = new ChromeDriver(options);
-//        chromewebDriver.manage().window().maximize();
 
 
+        chromewebDriver.manage().window().maximize();
         chromewebDriver.get("http://github.com");
 
         WebElement html = chromewebDriver.findElement(By.tagName("html"));
@@ -82,10 +82,16 @@ public class Download {
     @DisplayName("Searches alansastre in the index page")
     void search() {
 
+        // TODO Fails in phantom browser
         WebElement searchbox = chromewebDriver.findElement(By.xpath("//input[@type='text']"));
-        searchbox.sendKeys("alansastre");
-        searchbox.sendKeys(Keys.ENTER);
+        Actions actions = new Actions(chromewebDriver);
+        actions.click(searchbox);
+//
+//        new WebDriverWait(chromewebDriver, Duration.ofSeconds(5))
+//                .until(ExpectedConditions.elementToBeSelected(searchbox));
 
+        actions.sendKeys(searchbox,"alansastre").sendKeys(searchbox,Keys.ENTER);
+        actions.perform();
         assertTrue(chromewebDriver.getCurrentUrl().contains("https://github.com/search?q=alansastre"));
     }
         @Test
@@ -138,7 +144,7 @@ public class Download {
     void selectAliciaFork() {
 
         chromewebDriver.get("https://github.com/alansastre/proyecto-testing");
-        chromewebDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        chromewebDriver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
         // select stars and forks
         chromewebDriver.findElements(By.cssSelector(".social-count")).get(1).click();
 
@@ -230,8 +236,9 @@ public class Download {
         //Select Code button
         chromewebDriver.findElement(By.xpath("//summary[@class='btn-primary btn']")).click();
 
+        chromewebDriver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
         new WebDriverWait(chromewebDriver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.visibilityOf(chromewebDriver.findElement(By.xpath("//input[contains(@class, 'form-control') and contains(@aria-label,'alicia')]"))));
+                .until(ExpectedConditions.visibilityOf(chromewebDriver.findElement(By.xpath("//input[contains(@class,'form-control') and contains(@aria-label,'alicia')]"))));
 
         WebElement giturl = chromewebDriver.findElements(By.xpath("//input[contains(@class, 'form-control') and contains(@aria-label,'alicia')]")).get(0);
         assertEquals("https://github.com/alicianunex/proyecto-testing.git", giturl.getAttribute("aria-label"));

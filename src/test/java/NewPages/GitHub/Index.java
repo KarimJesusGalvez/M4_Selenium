@@ -32,16 +32,15 @@ public class Index {
         System.setProperty("webdriver.chrome.driver",path.toString());
         chromewebDriver = new ChromeDriver();
 
-        /*
-        WebDriverManager.chromedriver().setup();
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--headless");
-        chromewebDriver = new ChromeDriver(options);
-        chromewebDriver.manage().window().maximize();
+//
+//        WebDriverManager.chromedriver().setup();
+//        ChromeOptions options = new ChromeOptions();
+//        options.addArguments("--no-sandbox");
+//        options.addArguments("--disable-dev-shm-usage");
+//        options.addArguments("--headless");
+//        chromewebDriver = new ChromeDriver(options);
 
-*/
+        chromewebDriver.manage().window().maximize();
         chromewebDriver.get("http://github.com");
 
         WebElement html = chromewebDriver.findElement(By.tagName("html"));
@@ -91,9 +90,12 @@ public class Index {
     @Nested
     public class Header{
 
+        // TODO fails in phantom mode
+
         @Test
         @DisplayName("Checks the sing in button")
         public void signIn(){
+
 
             chromewebDriver.manage().window().maximize();
 

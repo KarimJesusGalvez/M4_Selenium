@@ -8,6 +8,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -23,14 +25,14 @@ public class IndexBody {
     @BeforeEach
     void setUp(){
 
-        String dir = System.getProperty("user.dir");
-//
+//        String dir = System.getProperty("user.dir");
+////
 ////        String driverUrl = "C:\\data\\chromedriver.exe";
 ////        System.setProperty("webdriver.chrome.driver",driverUrl);
 //        Path path = Paths.get("C:\\data\\chromedriver.exe");
 //        System.setProperty("webdriver.chrome.driver",path.toString());
 //        chromewebDriver = new ChromeDriver();
-///*
+//
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--no-sandbox");
@@ -113,11 +115,11 @@ public class IndexBody {
 
             chromewebDriver.findElement(By.className("Select-placeholder")).click();
 
-            // TODO find a way to inspect the drpodown menu
             List<WebElement> filters = chromewebDriver.findElements(By.xpath("//div[@class='Select-menu-outer']//div"));
             filters.get(2).click();
 
             WebElement selectedfilter = chromewebDriver.findElement(By.className("Select-value-label"));
+            // TODO find a way to inspect the dropodown menu
             assertTrue(selectedfilter.getText().contains("Quality Profile"));
         }
 
