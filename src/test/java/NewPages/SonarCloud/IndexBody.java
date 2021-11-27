@@ -2,10 +2,7 @@ package NewPages.SonarCloud;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -98,8 +95,50 @@ public class IndexBody {
             int finalsize = columns.size();
             System.out.println(initialsize + "  " + finalsize);
             assertTrue(initialsize > finalsize);
+        }
 
+        @Test
+        @DisplayName("Clicks on History btn")
+        void seeHistory() {
+            chromewebDriver.get("https://sonarcloud.io/component_measures?id=KarimJesusGalvez_spring-patterns&metric=coverage&view=list");
+            WebElement historybtn = chromewebDriver.findElement(By.xpath("//a [contains (@class,'show-history')]"));
+            historybtn.click();
+            assertTrue(chromewebDriver.findElement(By.className("project-activity-graphs")).isDisplayed());
+        }
+        @Test
+        @DisplayName("Clicks on History btn")
+        void filterHistoryQualityProfile() {
+           chromewebDriver.get("https://sonarcloud.io/project/activity?custom_metrics=coverage&graph=custom&id=KarimJesusGalvez_spring-patterns");
 
+            chromewebDriver.findElement(By.className("Select-placeholder")).click();
+
+            List<WebElement> filters = chromewebDriver.findElements(By.xpath("//div[@class='Select-menu-outer']//a"));
+            filters.get(2).click();
+
+            WebElement selectedfilter = chromewebDriver.findElement(By.className("Select-value-label"));
+            assertTrue(selectedfilter.getText().contains("Quality Profile"));
+        }
+
+        @Test
+        @DisplayName("Filters by date")
+        void filterHistoryDate() {
+            chromewebDriver.get("https://sonarcloud.io/project/activity?custom_metrics=coverage&graph=custom&id=KarimJesusGalvez_spring-patterns");
+
+            List<WebElement> datepicker = chromewebDriver.findElements(By.className("date-input-control-input"));
+
+            datepicker.get(0).click();
+
+            WebElement date = chromewebDriver.findElement(By.xpath("//div[@aria-label='Mon Nov 15 2021']"));
+            // TODO reformart if current month is different
+            date.click();
+
+            datepicker.get(1).click();
+            date = chromewebDriver.findElement(By.xpath("//div[@aria-label='Wed Nov 17 2021']"));
+            // TODO reformart if current month is different
+            date.click();
+
+            List<WebElement> period =chromewebDriver.findElements(By.cssSelector(".project-activity-days-list > li"));
+            assertEquals(1,period.size());
         }
 
         @Test
