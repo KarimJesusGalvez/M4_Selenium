@@ -80,6 +80,29 @@ public class IndexBody {
         }
 
         @Test
+        @DisplayName("Clicks on test units filter")
+        void seeTestunits() {
+
+            chromewebDriver.get("https://sonarcloud.io/component_measures?id=KarimJesusGalvez_spring-patterns&metric=coverage&view=list");
+            List<WebElement> columns = chromewebDriver.findElements(By.cssSelector("tbody tr"));
+            int initialsize = columns.size();
+
+            WebElement testsanchor = chromewebDriver.findElement(By.xpath("//a [@data-facet='tests']"));
+            js.executeScript("arguments[0].scrollIntoView();", testsanchor);
+            testsanchor.click();
+
+            new WebDriverWait(chromewebDriver, Duration.ofSeconds(5))
+                    .until(ExpectedConditions.numberOfElementsToBe(By.cssSelector("tbody tr"),13));
+
+            columns = chromewebDriver.findElements(By.cssSelector("tbody tr"));
+            int finalsize = columns.size();
+            System.out.println(initialsize + "  " + finalsize);
+            assertTrue(initialsize > finalsize);
+
+
+        }
+
+        @Test
         @DisplayName("Clicks on success filter")
         void seeSuccess() {
 
@@ -95,7 +118,7 @@ public class IndexBody {
 
     @Test
     @DisplayName("Checks other Activity button")
-    void olderbtn() {
+    void olderactivitybtn() {
 
         List<WebElement> activities = chromewebDriver.findElements(By.xpath("//div[contains(@class,'Activity')]"));
         int initialsize = activities.size();

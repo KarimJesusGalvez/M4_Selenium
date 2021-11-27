@@ -232,7 +232,6 @@ public class Download {
             assertTrue(chromewebDriver.getCurrentUrl().contains("github.com/KarimJesusGalvez/M4_Selenium"));
         }
 
-
         @Test
         @DisplayName("Downloads the branch's zip file")
         void downloadKmaster() throws InterruptedException {
