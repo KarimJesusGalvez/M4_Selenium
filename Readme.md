@@ -7,9 +7,7 @@ Project
 
 ***
 
-PENDING 
-* MAVEN pom.xml plugins
-***
+
 PENDING
 
 * Github.com
