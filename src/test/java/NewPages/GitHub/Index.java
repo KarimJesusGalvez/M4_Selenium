@@ -141,6 +141,18 @@ public class Index {
                 action.click(dropdownanchors).perform();
                 assertEquals("https://github.com/features", chromewebDriver.getCurrentUrl());
             }
+
+            @Test
+            void checkFeatureArrow(){
+
+                List<WebElement> dropdownmenus = chromewebDriver.findElements(By.xpath("//header//summary"));
+                Actions action = new Actions(chromewebDriver);
+                action.moveToElement(dropdownmenus.get(0)).perform();
+                WebElement featureanchor = dropdownmenus.get(0).findElement(By.xpath("//a[contains(@href,'features')]"));
+                action.moveToElement(featureanchor).perform();
+                List<WebElement> arrows = chromewebDriver.findElements(By.xpath("//span[contains(@class,'Bump-link-symbol')]"));
+                assertTrue(arrows.get(0).isDisplayed());
+            }
         }
     }
 }

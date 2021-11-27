@@ -1,10 +1,7 @@
 package NewPages.GitHub;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -14,6 +11,7 @@ import org.openqa.selenium.interactions.Actions;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,21 +28,21 @@ public class Download {
     @BeforeEach
     void setUp(){
 
-//        String dir = System.getProperty("user.dir");
-//
-////        String driverUrl = "C:\\data\\chromedriver.exe";
-////        System.setProperty("webdriver.chrome.driver",driverUrl);
-//        Path path = Paths.get("C:\\data\\chromedriver.exe");
-//        System.setProperty("webdriver.chrome.driver",path.toString());
-//        chromewebDriver = new ChromeDriver();
+        String dir = System.getProperty("user.dir");
 
-        WebDriverManager.chromedriver().setup();
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--headless");
-        chromewebDriver = new ChromeDriver(options);
-        chromewebDriver.manage().window().maximize();
+//        String driverUrl = "C:\\data\\chromedriver.exe";
+//        System.setProperty("webdriver.chrome.driver",driverUrl);
+        Path path = Paths.get("C:\\data\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver",path.toString());
+        chromewebDriver = new ChromeDriver();
+//
+//        WebDriverManager.chromedriver().setup();
+//        ChromeOptions options = new ChromeOptions();
+//        options.addArguments("--no-sandbox");
+//        options.addArguments("--disable-dev-shm-usage");
+//        options.addArguments("--headless");
+//        chromewebDriver = new ChromeDriver(options);
+//        chromewebDriver.manage().window().maximize();
 
 
         chromewebDriver.get("http://github.com");
@@ -79,8 +77,6 @@ public class Download {
     @DisplayName("Searches alansastre in the index page")
     void search() {
 
-        // if method fails, use debug
-        chromewebDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         WebElement searchbox = chromewebDriver.findElement(By.xpath("//input[@type='text']"));
         searchbox.sendKeys("alansastre");
         searchbox.sendKeys(Keys.ENTER);
@@ -164,13 +160,12 @@ public class Download {
 
         Thread.sleep(60);
 
-        // TODO wait until download is finished use debugger mode to download
+        // TODO wait until download is finished, use debugger mode to download
 /*
         new WebDriverWait(chromewebDriver, Duration.ofSeconds(5))
                 .until(ExpectedConditions.d(By.cssSelector("UnderlineNav-item")));
 */
     }
-
 
     @Test
     @DisplayName("Selects the karim branch")
@@ -213,6 +208,54 @@ public class Download {
         new WebDriverWait(chromewebDriver, Duration.ofSeconds(5))
                 .until(ExpectedConditions.d(By.cssSelector("UnderlineNav-item")));
 */
+    }
+
+
+    @Nested
+    @DisplayName("Downloads this repository's zip")
+    public class m4download {
+
+        @Test
+        @DisplayName("Selects m4 repo")
+        void selectM4repo() {
+
+            chromewebDriver.manage().window().maximize();
+            WebElement searchbox = chromewebDriver.findElement(By.xpath("//input[@type='text']"));
+            searchbox.click();
+            searchbox.sendKeys("m4_selenium");
+            searchbox.sendKeys(Keys.ENTER);
+
+            assertTrue(chromewebDriver.getCurrentUrl().contains("github.com/search?q=m4_selenium"));
+
+            List<WebElement> repoanchors = chromewebDriver.findElements(By.xpath("//ul[contains(@class,'repo-list')]//a"));
+            repoanchors.get(0).click();
+            assertTrue(chromewebDriver.getCurrentUrl().contains("github.com/KarimJesusGalvez/M4_Selenium"));
+        }
+
+
+        @Test
+        @DisplayName("Downloads the branch's zip file")
+        void downloadKmaster() throws InterruptedException {
+
+            chromewebDriver.get("https://github.com/KarimJesusGalvez/M4_Selenium");
+            //Select Code button
+            chromewebDriver.findElement(By.xpath("//summary[@class='btn-primary btn']")).click();
+
+            WebElement giturl = chromewebDriver.findElements(By.xpath("//input[contains(@class, 'form-control') and contains(@aria-label,'KarimJesus')]")).get(0);
+            assertEquals("https://github.com/KarimJesusGalvez/M4_Selenium.git", giturl.getAttribute("aria-label"));
+
+            // Select download button
+            WebElement dowloadbtn = chromewebDriver.findElement(By.xpath("//a[contains(@href,'zip')]"));
+            dowloadbtn.click();
+
+//        Thread.sleep(500);
+
+            // TODO wait until download is finished, use debug to download
+/*
+        new WebDriverWait(chromewebDriver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.d(By.cssSelector("UnderlineNav-item")));
+*/
+        }
     }
 }
 
